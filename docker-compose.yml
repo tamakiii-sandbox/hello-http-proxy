@@ -3,7 +3,7 @@ services:
   squid:
     build: docker/squid
     working_dir: /app
-    command: -N
+    command: -NYCd 1
     ports:
       - 3128:3128
     volumes:
@@ -14,7 +14,8 @@ services:
 
   openssl:
     build: docker/openssl
-    command: --help
+    command: -v
     working_dir: /app
     volumes:
       - .:/app
+
