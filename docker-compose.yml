@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  squid:
+    build: docker/squid
+    working_dir: /app
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+      - ./secure/proxy.crt:/etc/squid/proxy.crt
+      - ./secure/proxy.key:/etc/squid/proxy.key
+
+  openssl:
+    build: docker/openssl
+    working_dir: /app
+    volumes:
+      - .:/app
