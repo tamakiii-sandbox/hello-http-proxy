@@ -11,10 +11,10 @@ secure:
 	mkdir $@
 
 secure/proxy.key: secure
-	openssl req -newkey rsa:2048 -nodes -subj '/C=US/O=Example Inc./CN=proxy.example.com' -keyout $@
+	openssl req -newkey rsa:2048 -nodes -subj '/C=US/O=Example Inc./CN=proxy.example.com' -extensions v3_ca -keyout $@
 
 secure/proxy.csr: secure secure/proxy.key
-	openssl req -new -key secure/proxy.key -subj '/C=US/O=Example Inc./CN=proxy.example.com' > $@
+	openssl req -new -key secure/proxy.key -subj '/C=US/O=Example Inc./CN=proxy.example.com' -extensions v3_ca > $@
 
 secure/proxy.crt: secure secure/proxy.key secure/proxy.csr
 	openssl x509 -req -in secure/proxy.csr -signkey secure/proxy.key -days $(DAYS) > $@
@@ -33,3 +33,6 @@ check:
 
 subject:
 	openssl x509 -in /etc/ssl/cert.pem -noout -subject
+
+clean:
+	rm -rf secure
