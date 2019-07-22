@@ -3,15 +3,18 @@ services:
   squid:
     build: docker/squid
     working_dir: /app
+    command: -N
     ports:
-      - 8080:8080
+      - 3128:3128
     volumes:
       - .:/app
-      - ./secure/proxy.crt:/etc/squid/proxy.crt
-      - ./secure/proxy.key:/etc/squid/proxy.key
+      - ./docker/openssl/secure/proxy.crt:/etc/squid/proxy.crt
+      - ./docker/openssl/secure/proxy.key:/etc/squid/proxy.key
+      - ./docker/squid/squid.conf:/etc/squid/squid.conf
 
   openssl:
     build: docker/openssl
+    command: --help
     working_dir: /app
     volumes:
       - .:/app
